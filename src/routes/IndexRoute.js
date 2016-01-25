@@ -1,7 +1,9 @@
 import React from 'react'
-import store from './../store'
+import api from './../api'
 import Post from '../components/Post'
+import {NewPostEditor} from '../components/Editor'
 
+import store from '../actions/store'
 
 let IndexRoute = React.createClass({
   displayName: 'Index',
@@ -27,7 +29,9 @@ let IndexRoute = React.createClass({
     return <div>
       {content}
       
-      <div>{(posts.length)}</div>
+      <div>
+        <NewPostEditor />
+      </div>
     </div>
   },
   // get-initial-state :: a -> UIState
@@ -38,19 +42,24 @@ let IndexRoute = React.createClass({
   },
 
   // component-did-mount :: a -> Void
-  componentDidMount() {
+  componentWillMount() {
     // get all the posts
     let self = this
-    store.all().then(it => self.setState({posts: it}))
+    store.on('change', ({posts}) => {
+      self.setState({posts: posts})
+    })
+    store.all()
+    // api.all().then(it => self.setState({posts: it}))
+    //this.props.api.all()
   }
 })
 
-let {PropTypes} = React
-IndexRoute.propTypes = {
-  posts: PropTypes.array.isRequired,
-  isFetchingPosts: PropTypes.bool.isRequired,
-  // dispatch: PropTypes.func.isRequired
-}
+// let {PropTypes} = React
+// IndexRoute.propTypes = {
+//   posts: PropTypes.array.isRequired,
+//   isFetchingPosts: PropTypes.bool.isRequired,
+//   // dispatch: PropTypes.func.isRequired
+// }
 
 
 export default IndexRoute

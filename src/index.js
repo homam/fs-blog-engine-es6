@@ -4,18 +4,11 @@ import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
 import App from './App'
 import MyIndexRoute from './routes/IndexRoute'
 
-var IndexRouteWrapper = React.createClass({
-  render: function () {
-    return (
-        <MyIndexRoute posts={[]} isFetchingPosts={false} />
-    );
-  }
-});
 
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={IndexRouteWrapper} />
+      <IndexRoute component={MyIndexRoute} />
     </Route>
   </Router>
 ), document.getElementById('app'))

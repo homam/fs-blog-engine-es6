@@ -1,5 +1,10 @@
 require('whatwg-fetch')
 
+let trace = (x) => {
+  console.log(x)
+  return x
+}
+
 let fetch1 = (path, body = null) => new Promise((resolve, reject) => {
   let options = (body == null) ? {} : {
     method: 'post',
@@ -9,12 +14,12 @@ let fetch1 = (path, body = null) => new Promise((resolve, reject) => {
     },
     body: JSON.stringify(body)
   }
-  return fetch('http://fs-blog-engine.herokuapp.com' + path, options).then(it => 
-    it.json()
-    .then(res => [it.ok, res])
-    .then(([ok, res]) => ok ? resolve(res) : reject(ers.errorContext))
+  return fetch('http://fs-blog-engine.herokuapp.com' + path, options)
+    .then(it => 
+      it.json()
+      .then(res => [it.ok, res])
+      .then(([ok, res]) => ok ? resolve(res) : reject(ers.errorContext)))
     .catch(_ => reject('Network Error'))
-  )
 })
 
 

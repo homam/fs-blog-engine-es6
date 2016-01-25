@@ -10,7 +10,10 @@
     "test": "nwb test"
   },
   "dependencies": {
+    "flux": "^2.1.1",
+    "merge": "^1.2.0",
     "moment": "^2.11.1",
+    "prelude-ls": "^1.1.2",
     "react": "0.14.x",
     "react-dom": "0.14.x",
     "react-markdown": "^1.2.3",

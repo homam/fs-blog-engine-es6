@@ -1,6 +1,6 @@
 import React from 'react'
 import Post from './components/Post'
-import store from './store'
+import store from './actions/store'
 
 
 export default React.createClass({
@@ -17,7 +17,11 @@ export default React.createClass({
   },
 
   // component-did-mount :: a -> Void
-  componentDidMount() {
-
+  componentWillMount() {
+    // get all the posts
+    let self = this
+    store.on('change', (state) => {
+      self.setState(state)
+    })
   }
 })
