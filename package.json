@@ -1,0 +1,25 @@
+{
+  "name": "nwb-react-app",
+  "version": "1.0.0",
+  "description": "Describe nwb-react-app here",
+  "private": true,
+  "scripts": {
+    "build": "nwb build",
+    "clean": "nwb clean",
+    "start": "nwb serve",
+    "test": "nwb test"
+  },
+  "dependencies": {
+    "moment": "^2.11.1",
+    "react": "0.14.x",
+    "react-dom": "0.14.x",
+    "react-markdown": "^1.2.3",
+    "react-router": "^2.0.0-rc5"
+  },
+  "devDependencies": {
+    "nwb": "0.7.x"
+  },
+  "author": "",
+  "license": "MIT",
+  "repository": ""
+}
