@@ -9,7 +9,7 @@ let IndexRoute = React.createClass({
   displayName: 'Index',
 
   render() {
-    let {posts} = this.state
+    let {posts, newPost, newPostUI} = this.state
     let content;
     if (posts.length == 0) {
       content = 
@@ -30,27 +30,34 @@ let IndexRoute = React.createClass({
       {content}
       
       <div>
-        <NewPostEditor />
+        <NewPostEditor 
+          uiState={newPostUI} 
+          post={newPost} 
+          update={store.newPostUpdated} 
+          add={store.add} />
       </div>
     </div>
   },
+
+  fromStoreState() {
+    let {posts, newPost, newPostUI} = store.state
+    return {posts: posts, newPost: newPost, newPostUI: newPostUI}
+  },
+
   // get-initial-state :: a -> UIState
   getInitialState() { 
-    return {
-      posts: []
-    }
+    return this.fromStoreState()
   },
 
   // component-did-mount :: a -> Void
   componentWillMount() {
-    // get all the posts
+
+    // bind this to store
     let self = this
-    store.on('change', ({posts}) => {
-      self.setState({posts: posts})
-    })
+    store.on('change', _ => self.setState(self.fromStoreState()))
+
+    // get all the posts
     store.all()
-    // api.all().then(it => self.setState({posts: it}))
-    //this.props.api.all()
   }
 })
 
