@@ -16,12 +16,21 @@ export default React.createClass({
     return {}
   },
 
+
+  // unsubscribe function
+  unsubscribe: (_ => void 8),
+
   // component-did-mount :: a -> Void
   componentWillMount() {
     // get all the posts
     let self = this
-    store.on('change', (state) => {
-      self.setState(state)
-    })
+    self.unsubscribe = store.subscribe(_ =>
+      self.setState(store.getState())
+    )
+  },
+
+  // component-will-unmount :: a -> Void
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 })

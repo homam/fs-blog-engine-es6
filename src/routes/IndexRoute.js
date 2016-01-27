@@ -33,14 +33,14 @@ let IndexRoute = React.createClass({
         <NewPostEditor 
           uiState={newPostUI} 
           post={newPost} 
-          update={store.newPostUpdated} 
+          update={(partial) => store.dispatch({type: 'NEWPOST.UPDATE', partial: partial})} 
           add={store.add} />
       </div>
     </div>
   },
 
   fromStoreState() {
-    let {posts, newPost, newPostUI} = store.state
+    let {posts, newPost, newPostUI} = store.getState()
     return {posts: posts, newPost: newPost, newPostUI: newPostUI}
   },
 
@@ -49,15 +49,21 @@ let IndexRoute = React.createClass({
     return this.fromStoreState()
   },
 
+  // unsubscribe function
+  unsubscribe: (_ => void 8),
+
   // component-did-mount :: a -> Void
   componentWillMount() {
-
-    // bind this to store
-    let self = this
-    store.on('change', _ => self.setState(self.fromStoreState()))
-
     // get all the posts
-    store.all()
+    let self = this
+    self.unsubscribe = store.subscribe(_ =>
+      self.setState(store.getState())
+    )
+  },
+
+  // component-will-unmount :: a -> Void
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 })
 

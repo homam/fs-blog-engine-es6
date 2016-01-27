@@ -17,7 +17,8 @@
     "react": "0.14.x",
     "react-dom": "0.14.x",
     "react-markdown": "^1.2.3",
-    "react-router": "^2.0.0-rc5"
+    "react-router": "^2.0.0-rc5",
+    "redux": "^3.0.6"
   },
   "devDependencies": {
     "nwb": "0.7.x"
