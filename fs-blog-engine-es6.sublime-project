@@ -1,0 +1,12 @@
+{
+    "folders":
+    [
+        {
+            "follow_symlinks": true,
+            "path": ".",
+            "_file_exclude_patterns": [],
+            "folder_exclude_patterns": ["node_modules", "_public/build", "tmp"]
+        }
+    ]    
+}
+

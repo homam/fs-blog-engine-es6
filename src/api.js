@@ -6,6 +6,7 @@ let trace = (x) => {
 }
 
 let fetch1 = (path, body = null) => new Promise((resolve, reject) => {
+  console.log("fetch1", body)
   let options = (body == null) ? {} : {
     method: 'post',
     headers: {
@@ -18,7 +19,7 @@ let fetch1 = (path, body = null) => new Promise((resolve, reject) => {
     .then(it => 
       it.json()
       .then(res => [it.ok, res])
-      .then(([ok, res]) => ok ? resolve(res) : reject(ers.errorContext)))
+      .then(([ok, res]) => ok ? resolve(res) : reject(res.errorContext)))
     .catch(_ => reject('Network Error'))
 })
 

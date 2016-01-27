@@ -4,6 +4,10 @@ import Post from '../components/Post'
 import {NewPostEditor} from '../components/Editor'
 
 import store from '../actions/store'
+import actions from '../actions/actions'
+
+
+console.log('actions', actions)
 
 let IndexRoute = React.createClass({
   displayName: 'Index',
@@ -34,7 +38,7 @@ let IndexRoute = React.createClass({
           uiState={newPostUI} 
           post={newPost} 
           update={(partial) => store.dispatch({type: 'NEWPOST.UPDATE', partial: partial})} 
-          add={store.add} />
+          add={_ => store.dispatch(actions.addPost(newPost))} />
       </div>
     </div>
   },
@@ -56,9 +60,19 @@ let IndexRoute = React.createClass({
   componentWillMount() {
     // get all the posts
     let self = this
-    self.unsubscribe = store.subscribe(_ =>
+    self.unsubscribe = store.subscribe(_ => {
+
+      console.log('store changed', store.getState())
+
+      // retain scroll position
+
+      let beforeHeight = document.body.scrollHeight
       self.setState(store.getState())
+      let afterHeight = document.body.scrollHeight
+      window.scrollTo(window.scrollX, window.scrollY + (afterHeight - beforeHeight))
+    }
     )
+    store.dispatch(actions.loadPosts)
   },
 
   // component-will-unmount :: a -> Void

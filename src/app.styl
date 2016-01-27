@@ -1,0 +1,130 @@
+body 
+    padding: 0
+    margin: 0
+    background-color: black
+
+body, body *
+    font-family: Georgia, Serif
+    font-size: 1em
+
+pre, code
+    background-color: rgb(220, 220, 220)
+    padding: 0.1em 1em
+    overflow: auto
+
+pre
+    padding: 1em
+    white-space: pre
+    code
+        padding: 0
+
+pre, pre *, code, code *
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace
+
+
+div.app
+    width: 90%
+    margin: 1em auto 
+    padding: 1em
+    background-color: white
+    border-radius: 1em
+    overflow: hidden
+
+article
+    margin: 0 auto 2em auto
+    padding: 0 0 2em 0
+    border-bottom: solid 1px silver
+
+    div.title
+        clear: both
+        display: inline-block
+
+        h2
+            display: inline-block
+            margin: 0 0 1ex 0
+            font-size: 200%
+            float: left
+
+        a.edit
+            padding-left: 1em
+            font-size: 60%
+            &:before
+                content: '['
+            &:after
+                content: ']'
+            line-height: 5em
+
+    section
+        line-height: 3ex
+
+        &.header
+            font-style: italic;
+
+div.editor
+    input, textarea
+        width: 100%
+        padding: 0.2em
+        margin: 0 auto 0.5em 0
+        display: inline-block
+        border: solid 1px silver
+    
+    textarea.header
+        height: 80px
+    
+    textarea.body
+        height: 240px
+
+    .controls
+        margin: 1em 0 0 0
+        text-align: right
+
+        button, a
+            width: 95px
+            margin-left 1em
+
+button
+    padding: 0.2em 1em
+    cursor: pointer
+
+div.message
+    margin: 1em 5px
+    padding: 0.5em
+    border: solid 1px black
+
+    &.success
+        border-color: green
+    &.error
+        border-color: red
+
+
+.dialog-overlay
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background-color: rgba(192, 192, 192, 0.5)
+    z-index: 99
+
+.dialog
+    width: 300px
+    height: 70px
+    position: fixed
+    top: 20% 
+    left: 50%
+    padding: 1em
+    margin-left: calc(-150px - 1em)
+    background-color: black
+    color: white
+    border-radius: 5px
+    z-index: 100
+
+    .controls
+        margin: 1em 0 0 0
+        padding 1em 0 0 0
+        text-align: right
+        border-top: solid 1px silver
+
+        button
+            width: 100px
+            margin-left 1em

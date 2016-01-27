@@ -21,7 +21,8 @@
     "redux": "^3.0.6"
   },
   "devDependencies": {
-    "nwb": "0.7.x"
+    "nwb": "0.7.x",
+    "nwb-stylus": "^0.5.0"
   },
   "author": "",
   "license": "MIT",

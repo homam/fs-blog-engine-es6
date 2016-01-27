@@ -23,35 +23,41 @@ let createComponent = (isNew) => {
     render() {
 
       let self = this
+      let {uiState} = self.props
 
-      let isError = 'error' == self.props.uiState.status
+      let isError = 'error' == uiState.status
 
-      let messageContent;
+      let message, messageContent;
 
 
-      if (isError && !!self.props.uiState.errorField) {
+      if (isError && !!uiState.errorField) {
         messageContent = 
           <a 
             href='javascript: void(0)' 
-            onClick={_ => self.refs.newpost.refs[self.props.uiState.errorField].focus()}
+            onClick={_ => self.refs.newpost.refs[uiState.errorField].focus()}
           >Fix it</a>
       } else {
         messageContent = ''
       }
 
+      if(!!uiState.message) {
+        message = 
+          <div className={'message ' + (isError ? 'error' : 'success')}>
+            <div>{uiState.message}</div>
+            {messageContent}
+          </div>
+      }
+
       return <div className='editor'>
         <PostEditor ref='newpost' post={self.props.post} onChange={self.props.update} />
         <button type='button'
-          disabled={'uploading' == self.props.uiState.status}
+          disabled={'uploading' == uiState.status}
           onClick={self.props.add}>{isNew ? 'Post' : 'Update'}</button>
 
-        <div className={'message' + isError ? 'error' : 'success'}>
-          <div>{self.props.uiState.message}</div>
-          {messageContent}
-        </div>
+          {message}
 
 
-        <div>{self.props.uiState.status}</div>
+        <div>{uiState.status}</div>
       </div>
     }
   })
@@ -62,7 +68,6 @@ let createComponent = (isNew) => {
     uiState: PropTypes.shape({
       status: PropTypes.string.isRequired,
       message: PropTypes.string,
-      error: PropTypes.string,
       errorField: PropTypes.string
     }),
     post: PropTypes.shape({

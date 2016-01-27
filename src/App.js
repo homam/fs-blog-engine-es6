@@ -1,14 +1,14 @@
 import React from 'react'
 import Post from './components/Post'
 import store from './actions/store'
-
+require('./app.styl')
 
 export default React.createClass({
   displayName:  'App',
 
   render() {
     return <div className='app'>
-      <div>{this.props.children}</div>
+      {this.props.children}
     </div>
   },
   // get-initial-state :: a -> UIState

@@ -1,13 +1,13 @@
 import {EventEmitter} from 'events'
 import merge from 'merge'
 import {createStore, combineReducers} from 'redux'
-import api from './../api'
+import api from './../api' // todo: remove
 import {find} from 'prelude-ls'
 
 let initialState = _ =>
     ({
         posts: [],
-        indexUIState: {
+        indexUI: {
             status: 'none' // none | loading | loaded
         },
         newPost: {
@@ -17,26 +17,66 @@ let initialState = _ =>
         },
         newPostUI: {
             status: 'none', // none | uploading | uploaded | error
-            error: null, // :: String
+            message: null, // :: String
             errorField: null // :: String
         }
     })
 
 let reducer = function(state = initialState(), action) {
+    
+    console.info("action", action.type, action)
+
     switch(action.type) {
-        case 'LOAD_POSTS':
-            state.indexUIState.status = 'loading'
+        case 'LOADING_POSTS':
+            state.indexUI.status = 'loading'
+            return state
+
+        case 'POSTS_LOADED':
+            state.indexUI.status = 'loaded'
+            state.posts = action.posts
+            return state
+
+
+        case 'ADDING_UPDATING_POST':
+            state.newPostUI.status = 'uploading'    
+            return state
+
+        case 'ADDING_UPDATING_POST_ERROR':
+            state.newPostUI = {
+                status: 'error',
+                message: action.error,
+                errorField: action.errorField
+            }
+            return state
+
+        case 'ADDING_UPDATING_POST_ADDED':
+            state.newPostUI = {
+                status: 'uploaded',
+                error: null,
+                errorField: null
+            }
+            state.newPost = {
+                title: '',
+                header: '',
+                body: ''
+            }
             return state
 
         case 'NEWPOST.UPDATE':
             state.newPost = merge(state.newPost, action.partial)
             return state
+
         default:
             return state
     }
 }
 
-export default createStore(reducer)
+let store = createStore(reducer)
+let _dispatch = store.dispatch
+store.dispatch = (action) =>
+    typeof action == 'function' ? action(store) : _dispatch(action)
+
+export default store
 
 
 // dispatch a change in state
