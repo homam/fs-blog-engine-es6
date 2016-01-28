@@ -24,8 +24,21 @@ let createComponent = (isNew) => {
       let {uiState, deletePostStatus} = self.props
 
       let isError = 'error' == uiState.status
+      let isUploaded = 'uploaded' == uiState.status
+      let isDeleted = 'deleted' == deletePostStatus
 
       let messageContent;
+
+
+      let successMessage = _ => {
+        if (isNew) {
+          return 'New post added.'
+        } else if (isDeleted) {
+          return 'Post deleted.'
+        } else {
+          return 'Post updated.'
+        }
+      }()
 
 
       if (isError && !!uiState.errorField) {
@@ -37,12 +50,16 @@ let createComponent = (isNew) => {
                 onClick={_ => self.refs.newpost.refs[uiState.errorField].focus()}
               >Fix it</a>
           </div>
-      } else if ('uploaded' == uiState.status) {
+      } else if (isUploaded || isDeleted) {
 
         let viewLink = _ => {
-          if (isNew) {
-            return
-              <a 
+          if(isDeleted) {
+            return <a 
+                href='javascript: void(0)' 
+                onClick={_ => store.dispatch(actions.restorePost(self.props.post))}
+              >Restore it</a>
+          } else if (isNew) {
+            return <a 
                 href='javascript: void(0)' 
                 onClick={_ => window.scrollTo(0, 0)}
               >View it</a>
@@ -61,7 +78,7 @@ let createComponent = (isNew) => {
       }
 
       let deleteButton = _ => {
-        if (!isNew) {
+        if (!isNew && !isDeleted) {
           return <button type='button'
             disabled={'uploading' == uiState.status}
             onClick={_ => store.dispatch({type: 'EDIT_POST_DELETE'})}>Delete

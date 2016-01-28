@@ -50,10 +50,18 @@ let deletePost = (postId) => function(store) {
     .catch(it => store.dispatch({type: 'EDIT_POST_DELETE_ERROR', error: it.toString()}))
 }
 
+let restorePost = (post) => function(store) {
+    store.dispatch({type: 'EDIT_POST_RESTORE'})
+    api.restore(post)
+    .then(post => store.dispatch({type: 'EDIT_POST_RESTORED', post: post}))   
+    .catch(it => store.dispatch({type: 'EDIT_POST_RESTORE_ERROR', error: it.toString()}))
+}
+
 export default {
     loadPosts: loadPosts,
     loadPost: loadPost,
     addPost: addPost,
     updatePost: updatePost,
-    deletePost: deletePost
+    deletePost: deletePost,
+    restorePost: restorePost
 }

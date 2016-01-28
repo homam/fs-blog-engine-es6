@@ -93,6 +93,14 @@ let reducer = function(state = initialState(), action) {
             state.deletePostStatus = 'deleting'
             return state
 
+        case 'EDIT_POST_DELETED':
+            state.deletePostStatus = 'deleted'
+            return state
+
+        case 'EDIT_POST_RESTORED':
+            state.deletePostStatus = 'none'
+            return state
+
         case 'EDIT_POST_DELETE_NO':
             state.deletePostStatus = 'none'
             return state
