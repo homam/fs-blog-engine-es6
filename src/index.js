@@ -1,25 +1,27 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {Router, Route, IndexRoute, Link, browserHistory} from 'react-router'
+import {Router, Route, IndexRoute, hashHistory, browserHistory} from 'react-router'
 import App from './App'
 import MyIndexRoute from './routes/IndexRoute'
+import EditRoute from './routes/EditRoute'
 
+
+// render((
+//   <Router history={hashHistory}>
+//     <Route path='/' component={App}>
+//       <IndexRoute component={MyIndexRoute} />
+//       <Route path='edit' component={EditRoute}>
+//         <Route name='edit' route=':postid' component={EditRoute}  />
+//       </Route>
+//     </Route>
+//   </Router>
+// ), document.getElementById('app'))
 
 render((
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={MyIndexRoute} />
+      <Route path="edit/:postId" component={EditRoute} />
     </Route>
   </Router>
 ), document.getElementById('app'))
-
-// // render(<App/>, document.querySelector('#app'))
-// render(Router({
-//   history: browserHistory
-// }, Route({
-//   name: 'app',
-//   path: '/',
-//   component: App
-// }, IndexRoute({
-//   component:
-// }))), document.getElementById('app'));

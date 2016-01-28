@@ -5,7 +5,7 @@ export default React.createClass({
   displayName: 'Dialog',
   
   render() {
-    return <div className='dialog-overlay' onClick={this.props.no}>
+    return <div className='dialog-overlay' onClick={this.props.onNo}>
       <div className='dialog'>
         <div>{this.props.question}</div>
         <div className='controls'>

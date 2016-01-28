@@ -2,12 +2,8 @@ import React from 'react'
 import api from './../api'
 import Post from '../components/Post'
 import {NewPostEditor} from '../components/Editor'
-
 import store from '../actions/store'
 import actions from '../actions/actions'
-
-
-console.log('actions', actions)
 
 let IndexRoute = React.createClass({
   displayName: 'Index',
@@ -68,8 +64,11 @@ let IndexRoute = React.createClass({
 
       let beforeHeight = document.body.scrollHeight
       self.setState(store.getState())
-      let afterHeight = document.body.scrollHeight
-      window.scrollTo(window.scrollX, window.scrollY + (afterHeight - beforeHeight))
+
+      if (beforeHeight > window.innerHeight) {
+        let afterHeight = document.body.scrollHeight
+        window.scrollTo(window.scrollX, window.scrollY + (afterHeight - beforeHeight))
+      }
     }
     )
     store.dispatch(actions.loadPosts)

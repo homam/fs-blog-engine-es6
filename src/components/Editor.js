@@ -1,60 +1,103 @@
 import React from 'react'
 import {Link} from 'react-router'
 import store from './../actions/store'
-import PostEditor from './PostEditor.js'
+import actions from '../actions/actions'
+import PostEditor from './PostEditor'
+import Dialog from './Dialog'
 let {PropTypes} = React
 
 let createComponent = (isNew) => {
   
-  let successMessage, action;
+  let successMessage;
 
   if (isNew) {
     successMessage = 'New post added.'
-    action = store.add
   } else {
     successMessage = 'Post updated.'
-    action = store.update
   }
   
   let component = React.createClass({
     
-    displayName: 'New-Or-Update-Post',
-    
     render() {
 
       let self = this
-      let {uiState} = self.props
+      let {uiState, deletePostStatus} = self.props
 
       let isError = 'error' == uiState.status
 
-      let message, messageContent;
+      let messageContent;
 
 
       if (isError && !!uiState.errorField) {
         messageContent = 
-          <a 
-            href='javascript: void(0)' 
-            onClick={_ => self.refs.newpost.refs[uiState.errorField].focus()}
-          >Fix it</a>
+          <div className='message error'>
+            <div>{uiState.message}</div>
+              <a 
+                href='javascript: void(0)' 
+                onClick={_ => self.refs.newpost.refs[uiState.errorField].focus()}
+              >Fix it</a>
+          </div>
+      } else if ('uploaded' == uiState.status) {
+
+        let viewLink = _ => {
+          if (isNew) {
+            return
+              <a 
+                href='javascript: void(0)' 
+                onClick={_ => window.scrollTo(0, 0)}
+              >View it</a>
+          } else {
+            return <Link to='/'>Back to home</Link>
+          }
+        }()
+
+        messageContent = 
+          <div className='message success'>
+              <div>{successMessage}</div>
+              {viewLink}
+          </div>
       } else {
         messageContent = ''
       }
 
-      if(!!uiState.message) {
-        message = 
-          <div className={'message ' + (isError ? 'error' : 'success')}>
-            <div>{uiState.message}</div>
-            {messageContent}
-          </div>
-      }
+      let deleteButton = _ => {
+        if (!isNew) {
+          return <button type='button'
+            disabled={'uploading' == uiState.status}
+            onClick={_ => store.dispatch({type: 'EDIT_POST_DELETE'})}>Delete
+          </button>
+        } else {
+          return ''
+        }
+      }()
+
+      let dialog = _ => {
+        if('confirm' == deletePostStatus) {
+          return  <Dialog
+            question='Are you sure you want to delete this post?'
+            onNo={_ => store.dispatch({type: 'EDIT_POST_DELETE_NO'})}
+            onYes={_ => store.dispatch(actions.deletePost(self.props.post._id))} />
+        } else {
+          return ''
+        }
+      }()
 
       return <div className='editor'>
-        <PostEditor ref='newpost' post={self.props.post} onChange={self.props.update} />
-        <button type='button'
-          disabled={'uploading' == uiState.status}
-          onClick={self.props.add}>{isNew ? 'Post' : 'Update'}</button>
+        
+        {dialog}
 
-          {message}
+        <PostEditor ref='newpost' post={self.props.post} onChange={self.props.update} />
+        
+        <div className='controls'>
+          {deleteButton}
+
+          <button type='button'
+            disabled={'uploading' == uiState.status}
+            onClick={self.props.add}>{isNew ? 'Post' : 'Update'}
+          </button>
+        </div>
+
+          {messageContent}
 
 
         <div>{uiState.status}</div>

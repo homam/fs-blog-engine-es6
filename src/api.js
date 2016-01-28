@@ -38,7 +38,7 @@ export default {
   update: (post) =>  fetch1('/api/update', post),
 
   // remove :: PostId (Integer) -> Promise Post
-  remove: (postid) => fetch1("/api/delete/#{postid}", {}),
+  remove: (postid) => fetch1(`/api/delete/${postid}`, {}),
 
   // restore :: Post -> Promise Post
   restore: (post) => fetch1('/api/restore', post)

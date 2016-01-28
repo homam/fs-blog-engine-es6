@@ -4,6 +4,12 @@ import {createStore, combineReducers} from 'redux'
 import api from './../api' // todo: remove
 import {find} from 'prelude-ls'
 
+let freshNewPostUI = _ => ({
+    status: 'none', // none | uploading | uploaded | error
+    message: null, // :: String
+    errorField: null // :: String
+})
+
 let initialState = _ =>
     ({
         posts: [],
@@ -15,11 +21,10 @@ let initialState = _ =>
             header: '',
             body: ''
         },
-        newPostUI: {
-            status: 'none', // none | uploading | uploaded | error
-            message: null, // :: String
-            errorField: null // :: String
-        }
+        newPostUI: freshNewPostUI(),
+        editorPost: null,
+        editorFetchError: null,
+        deletePostStatus: 'none' // none | confirm | deleting | deleted | restored
     })
 
 let reducer = function(state = initialState(), action) {
@@ -60,6 +65,36 @@ let reducer = function(state = initialState(), action) {
                 header: '',
                 body: ''
             }
+            return state
+
+        case 'GET_POST_LOADING':
+            state.editorPost = null
+            state.editorFetchError = null
+            state.newPostUI = freshNewPostUI()
+            return state
+
+        case 'GET_POST_ERROR':
+            state.editorFetchError = action.error
+            return state
+
+        case 'GET_POST_LOADED': 
+            state.editorPost = action.post
+            return state
+
+        case 'EDIT_POST_UPDATE':
+            state.editorPost = merge(state.editorPost, action.partial)
+            return state
+
+        case 'EDIT_POST_DELETE':
+            state.deletePostStatus = 'confirm'
+            return state
+
+        case 'EDIT_POST_DELETE_YES':
+            state.deletePostStatus = 'deleting'
+            return state
+
+        case 'EDIT_POST_DELETE_NO':
+            state.deletePostStatus = 'none'
             return state
 
         case 'NEWPOST.UPDATE':
