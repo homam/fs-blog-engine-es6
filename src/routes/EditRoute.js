@@ -2,27 +2,35 @@ import React from 'react'
 import {Link} from 'react-router'
 import api from './../api'
 import Post from '../components/Post'
-import {ExistingPostEditor} from '../components/Editor'
+import ExistingPostEditor from '../components/ExistingPostEditor'
 import store from '../actions/store'
 import actions from '../actions/actions'
 
 export default React.createClass({
     render() {
         let content;
-        let {editorPost, editorFetchError, newPostUI, deletePostStatus} = this.state
+
+        let {post, fetchError, newPostUI, deleteStatus} = this.state
         
-        if (!!editorPost) {
+        if (!!post) {
             content = 
+
+                // pure component
+                
                 <ExistingPostEditor 
-                    deletePostStatus={deletePostStatus}
+                    deleteStatus={deleteStatus}
                     uiState={newPostUI} 
-                    post={editorPost} 
+                    post={post} 
                     update={(partial) => store.dispatch({type: 'EDIT_POST_UPDATE', partial: partial})} 
-                    add={_ => store.dispatch(actions.updatePost(editorPost))} />
-        } else if (!!editorFetchError) {
+                    add={_ => store.dispatch(actions.updatePost(post))} 
+                    removeConfirm={_ => store.dispatch({type: 'EDIT_POST_DELETE'})}
+                    removeCancel={_ => store.dispatch({type: 'EDIT_POST_DELETE_NO'})}
+                    remove={_ => store.dispatch(actions.deletePost(post._id))} 
+                    restore={_ => store.dispatch(actions.restorePost(post))}/>
+        } else if (!!fetchError) {
             content = 
                 <div>
-                    Error loading the post: '{editorFetchError}'
+                    Error loading the post: '{fetchError}'
                     <p>
                         <Link to='/'>Back to home</Link>
                     </p>
@@ -35,8 +43,7 @@ export default React.createClass({
         }
 
         return <div>
-            {content}
-            
+            {content}          
         </div>
     
     },
@@ -49,7 +56,7 @@ export default React.createClass({
         // get all the posts
         let self = this
         self.unsubscribe = store.subscribe(_ => {
-            self.setState(store.getState())
+            self.setState(store.getState().editPost)
         })
         store.dispatch(actions.loadPost(parseInt(this.props.params.postId)))
     },
@@ -59,8 +66,3 @@ export default React.createClass({
       this.unsubscribe()
     }
 })
-
-// <ExistingPostEditor uiState={newPostUI} 
-//   post={newPost} 
-//   update={(partial) => store.dispatch({type: 'NEWPOST.UPDATE', partial: partial})} 
-//   add={_ => store.dispatch(actions.addPost(newPost))} />

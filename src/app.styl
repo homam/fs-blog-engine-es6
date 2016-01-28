@@ -29,6 +29,31 @@ div.app
     background-color: white
     border-radius: 1em
     overflow: hidden
+    
+.index
+    &.loading
+        &:after
+            content: 'Loading....'
+            display: block
+            position: fixed
+            top: 0
+            left: 0
+            right: 0
+            background-color: rgba(0,0,0,0.8)
+            color: white
+            padding: 1ex 0 1ex 1em
+        &.noPosts
+            &:after
+                bottom: 0
+                text-align: center
+                padding: 50% 0 0 0
+                font-size: 300%
+    .error
+        padding: 1em
+        margin: 0 0 6ex 0
+        border: solid 1px red
+        > div
+            margin: 2ex 0 0 0
 
 article
     margin: 0 auto 2em auto

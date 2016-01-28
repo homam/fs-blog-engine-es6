@@ -5,18 +5,6 @@ import App from './App'
 import MyIndexRoute from './routes/IndexRoute'
 import EditRoute from './routes/EditRoute'
 
-
-// render((
-//   <Router history={hashHistory}>
-//     <Route path='/' component={App}>
-//       <IndexRoute component={MyIndexRoute} />
-//       <Route path='edit' component={EditRoute}>
-//         <Route name='edit' route=':postid' component={EditRoute}  />
-//       </Route>
-//     </Route>
-//   </Router>
-// ), document.getElementById('app'))
-
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
