@@ -1,5 +1,4 @@
 import React from 'react'
-import api from './../api'
 import Post from '../components/Post'
 import NewPostEditor from '../components/NewPostEditor'
 import store from '../actions/store'
