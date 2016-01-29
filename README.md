@@ -1,32 +1,41 @@
-# nwb-react-app
+# Live App
+Please check the live app at: [https://fs-blog-engine.herokuapp.com/](https://fs-blog-engine.herokuapp.com/)
 
-Collaborating on this React app:
+# Features
 
-## Prerequisites
+* Add / Remove / Update posts
+* The index route fetches the updates the content in realtime using Socket.IO
+* Restoring deleted posts
+* Markdown support
 
-You will need the following things properly installed on your computer.
+# Run the App locally
 
-* [Git](http://git-scm.com/)
-* [Node.js](http://nodejs.org/) (with npm)
-* [nwb](https://github.com/insin/nwb/) - `npm install -g nwb`
+I am using [nwb](https://github.com/insin/nwb)
 
-## Installation
+```
+$ nvm use 5.3.0 
+$ npm install -g nwb
+$ nwb serve --auto-install
+```
 
-* `git clone <repository-url>` this repository
-* change into the new directory
-* `npm install`
+# Technology Choices
 
-## Running / Development
+* Babel
+* Redux
+* webpack
+* Socket.IO'
+* Stylus
 
-* `nwb serve` will run the app
-* Visit the app at [http://localhost:3000](http://localhost:3000)
+# Scalability
 
-### Running Tests
+* Dependency Injection (in API and actions) used for testing
+* React Stateless Reusable Components
 
-* `nwb test` will run the tests once
-* `nwb test --server` will run the tests on every change
 
-### Building
+# Unit Tests
 
-* `nwb build` (production)
-* `nwb build --set-env-NODE_ENV=development` (development)
+```
+$ nwb test
+```
+
+Or just `$ npm run test`

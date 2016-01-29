@@ -1,6 +1,5 @@
 import React from 'react'
 import {Link} from 'react-router'
-import api from './../api'
 import Post from '../components/Post'
 import ExistingPostEditor from '../components/ExistingPostEditor'
 import store from '../actions/store'
@@ -8,14 +7,12 @@ import actions from '../actions/actions'
 
 export default React.createClass({
     render() {
-        let content;
 
+        let content;
         let {post, fetchError, newPostUI, deleteStatus} = this.state
         
         if (!!post) {
             content = 
-
-                // pure component
                 
                 <ExistingPostEditor 
                     deleteStatus={deleteStatus}
@@ -26,7 +23,8 @@ export default React.createClass({
                     removeConfirm={_ => store.dispatch({type: 'EDIT_POST_DELETE'})}
                     removeCancel={_ => store.dispatch({type: 'EDIT_POST_DELETE_NO'})}
                     remove={_ => store.dispatch(actions.deletePost(post._id))} 
-                    restore={_ => store.dispatch(actions.restorePost(post))}/>
+                    restore={_ => store.dispatch(actions.restorePost(post))} />
+
         } else if (!!fetchError) {
             content = 
                 <div>

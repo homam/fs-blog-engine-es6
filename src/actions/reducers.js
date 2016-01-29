@@ -1,3 +1,5 @@
+import merge from 'merge'
+
 const freshNewPostUI = _ => ({
     status: 'none', // none | uploading | uploaded | error
     message: null, // :: String
@@ -11,8 +13,8 @@ const initialIndexState = _ => ({
 })
 
 const indexReducer = function(state = initialIndexState(), action) {
-    
-    console.info("action", action.type, action)
+
+    // here I'm not using immutable data structures.
 
     switch(action.type) {
 

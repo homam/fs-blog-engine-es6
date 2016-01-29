@@ -39,8 +39,8 @@ export default React.createClass({
         return <div className={(`index ${status} ${posts.length > 0 ? 'somePosts': 'noPosts'}`)}>
 
             {content}
-          
-            // pure component
+
+            {/* pure component */}
 
             <NewPostEditor 
               uiState={newPostUI} 
@@ -72,8 +72,6 @@ export default React.createClass({
         let self = this
 
         self.unsubscribe = store.subscribe(_ => {
-
-            console.log('store changed', store.getState())
 
             // retain scroll position
 
