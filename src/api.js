@@ -2,7 +2,7 @@ require('whatwg-fetch')
 
 // fetch1 helper expects json request and responses
 
-let fetch1 = (path, body = null) => new Promise((resolve, reject) => {
+const fetch1 = (path, body = null) => new Promise((resolve, reject) => {
   
   let options = (body == null) ? {} : {
     method: 'post',

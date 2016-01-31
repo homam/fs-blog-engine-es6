@@ -19,13 +19,10 @@ const indexReducer = function(state = initialIndexState(), action) {
     switch(action.type) {
 
         case 'LOADING_POSTS':
-            state.status = 'loading'
-            return state
+            return merge({}, state, {status: 'loading'})
 
         case 'POSTS_LOADED':
-            state.status = 'loaded'
-            state.posts = action.posts
-            return state
+            return merge({}, state, {status: 'loaded', posts: action.posts})
 
         case 'LOADING_ERROR':
             state.status = 'error'
@@ -58,8 +55,9 @@ const newPostReducer = function(state = initialNewPostState(), action) {
     switch(action.type){
 
         case 'ADDING_UPDATING_POST':
-            state.newPostUI.status = 'uploading'    
-            return state
+            return merge({}, state, {
+                newPostUI: merge({}, state.newPostUI, {status: 'uploading'})
+            })
 
         case 'ADDING_UPDATING_POST_ERROR':
             state.newPostUI = {
@@ -70,17 +68,19 @@ const newPostReducer = function(state = initialNewPostState(), action) {
             return state
 
         case 'ADDING_UPDATING_POST_ADDED':
-            state.newPostUI = {
-                status: 'uploaded',
-                error: null,
-                errorField: null
-            }
-            state.newPost = {
-                title: '',
-                header: '',
-                body: ''
-            }
-            return state
+            return merge({}, state,  {
+                newPostUI: merge({}, state.newPostUI, {
+                    status: 'uploaded',
+                    error: null,
+                    errorField: null
+                }),
+                newPost: {
+                    title: '',
+                    header: '',
+                    body: ''
+                    }
+                }
+            )
 
         case 'UPDATE_NEWPOST':
             state.newPost = merge(state.newPost, action.partial)
@@ -138,6 +138,10 @@ const existingPostReducer = function(state = existingPostState(), action) {
         case 'EDIT_POST_DELETED':
             state.deleteStatus = 'deleted'
             return state
+
+        case 'EDIT_POST_DELETE_ERROR':
+            state.newPostUI.status = 'error'
+            state.newPostUI.message = action.error
 
         case 'EDIT_POST_RESTORED':
             state.deleteStatus = 'none'
