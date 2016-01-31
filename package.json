@@ -10,6 +10,7 @@
     "test": "nwb test"
   },
   "dependencies": {
+    "clone": "^1.0.2",
     "flux": "^2.1.1",
     "merge": "^1.2.0",
     "moment": "^2.11.1",
